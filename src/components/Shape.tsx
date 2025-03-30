@@ -20,15 +20,11 @@ function Shape({ color, holeLocation }: ShapeProps) {
         else {
             holeStyle = holeStyles.bottom;
         }
-    } else if (holeLocation === "horizontal") {
-        if (Math.random() < 0.5) {
-            holeStyle = holeStyles.left;
-        }
-        else {
+    } else if (holeLocation === "left") {
+        holeStyle = holeStyles.left;
+    } else if (holeLocation === "right") {
             holeStyle = holeStyles.right;
-        }
-    }
-    else {
+    } else {
         console.error(`Invalid hole location: ${holeLocation}`);
     }
         

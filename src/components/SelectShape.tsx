@@ -11,8 +11,11 @@ function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
     const [leftColor] = useState<Color>(Math.random() < 0.5 ? "red" : "blue");
     const [leftHoleLocation] = useState<HoleLocation>(
         congruent ?
-        (color === leftColor ? "horizontal" : "vertical") :
-        (color === leftColor ? "vertical" : "horizontal")
+        (color === leftColor ? (Math.random() < 0.5 ? "left" : "right") : "vertical") :
+        (color === leftColor ? "vertical" : (Math.random() < 0.5 ? "left" : "right"))
+    );
+    const [rightHoleLocation] = useState<HoleLocation>(
+        leftHoleLocation === "vertical" ? (Math.random() < 0.5 ? "left" : "right") : "vertical"
     );
     
     const handleClick = (clickLeft: boolean) => {
@@ -21,12 +24,23 @@ function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
         const reactionTime = endTime - startTime; // Calculer le temps de réaction
 
         // Vérifier si la réponse est correcte
-        let correct;
-        if (clickLeft) {
-            correct = leftHoleLocation === "horizontal";
-        } else {
-            correct = leftHoleLocation === "vertical";
+        let correct = false; // Default to false
+        if (leftHoleLocation !== "vertical" ) {
+            if (leftHoleLocation === "left" && clickLeft) {
+                correct = true;
+            } else if (leftHoleLocation === "right" && !clickLeft) {
+                correct = true;
+            }
+
         }
+        if (rightHoleLocation !== "vertical" ) {
+            if (rightHoleLocation === "left" && clickLeft) {
+                correct = true;
+            } else if (rightHoleLocation === "right" && !clickLeft) {
+                correct = true;
+            }
+        }
+        
 
         resetTest(reactionTime, correct);
     }
@@ -56,7 +70,7 @@ function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
         <div className="select-shape">
             <div onClick={() => handleClick(true)}><Shape color={leftColor} holeLocation={leftHoleLocation}/></div>
             <ShowCross />
-            <div onClick={() => handleClick(false)}><Shape color={leftColor === "red" ? "blue" : "red"} holeLocation={leftHoleLocation === "vertical" ? "horizontal" : "vertical"} /></div>
+            <div onClick={() => handleClick(false)}><Shape color={leftColor === "red" ? "blue" : "red"} holeLocation={rightHoleLocation} /></div>
             
         </div>
     );
