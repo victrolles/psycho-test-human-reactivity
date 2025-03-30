@@ -2,6 +2,7 @@ import { Color, HoleLocation } from "./types"
 
 export interface ShowCircleProps {
     color: Color;
+    istext: boolean;
 };
 
 export interface ShapeProps {
@@ -20,4 +21,10 @@ export interface Data {
     congruent: boolean;
     correct: boolean;
     reactionTime: number;
+}
+
+export interface TestProps {
+    name: string;
+    isText: boolean;
+    isPause: boolean;
 }

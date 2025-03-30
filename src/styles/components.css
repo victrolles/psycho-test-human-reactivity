@@ -1,3 +1,11 @@
+/* Home */
+
+.home-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 /* Show Circle */
 
 .show-circle {
@@ -10,6 +18,10 @@
         width: 300px;
         height: 300px;
         border-radius: 50%;
+    }
+
+    .circle-text {
+        font-size: 120px;
 }
 
 /* Show Cross */
