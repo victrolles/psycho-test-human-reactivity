@@ -50,12 +50,12 @@ const Test = ({ isText, isPause, name }: TestProps) => {
     setupTest();
   }
 
-  const setupLoopNoPause = () => {
+  const experience1 = () => {
     // Afficher la phase "cross" pendant 0.5 seconde
     const timer1 = setTimer(500, 'circle');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(2000, 'selectShape');
+    const timer2 = setTimer(650, 'selectShape');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
@@ -64,15 +64,29 @@ const Test = ({ isText, isPause, name }: TestProps) => {
     };
   };
 
-  const setupLoopWithPause = () => {
+  const experience2 = () => {
+    // Afficher la phase "cross" pendant 0.5 seconde
+    const timer1 = setTimer(500, 'circle');
+  
+    // Afficher la phase "circle" pendant 1.5 seconde
+    const timer2 = setTimer(1500, 'selectShape');
+  
+    // Nettoyer les deux timeouts lors du démontage du composant
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  };
+
+  const experience3 = () => {
     // Afficher la phase "cross" pendant 0.5 seconde
     const timer1 = setTimer(500, 'circle');
 
     // Afficher la phase "indice" pendant 4.0 seconde
-    const timer3 = setTimer(2000, 'cross');
+    const timer3 = setTimer(1500, 'cross');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(6000, 'selectShape');
+    const timer2 = setTimer(5500, 'selectShape');
 
     
   
@@ -92,9 +106,14 @@ const Test = ({ isText, isPause, name }: TestProps) => {
     setCongruent(Math.random() < 0.5 ? true : false);
 
     if (isPause) {
-      return setupLoopWithPause();
+      return experience3();
     } else {
-      return setupLoopNoPause();
+      if (isText) {
+        return experience2();
+      }
+      else {
+        return experience1();
+      }
     }
 
   }
