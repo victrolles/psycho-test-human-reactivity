@@ -7,9 +7,9 @@ import { Color, HoleLocation } from "../types/types";
 
 function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
     
-    const [startTime, setStartTime] = useState<number>(Date.now());
-    const [leftColor, setLeftColor] = useState<Color>(Math.random() < 0.5 ? "red" : "blue");
-    const [leftHoleLocation, setLeftHoleLocation] = useState<HoleLocation>(
+    const [startTime] = useState<number>(Date.now());
+    const [leftColor] = useState<Color>(Math.random() < 0.5 ? "red" : "blue");
+    const [leftHoleLocation] = useState<HoleLocation>(
         congruent ?
         (color === leftColor ? "horizontal" : "vertical") :
         (color === leftColor ? "vertical" : "horizontal")

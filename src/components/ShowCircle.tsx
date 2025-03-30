@@ -3,7 +3,7 @@ import '../styles/components.css';
 import { useState } from "react";
 
 function ShowCircle({ color, istext }: ShowCircleProps) {
-    const [text, setText] = useState<String>(color === "blue" ?"Bleu" :"Rouge");
+    const [text] = useState<String>(color === "blue" ?"Bleu" :"Rouge");
 
     return (
 
