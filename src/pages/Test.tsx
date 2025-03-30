@@ -38,7 +38,7 @@ const Test = ({ isText, isPause, name }: TestProps) => {
       { color, congruent, correct, reactionTime },
     ]);
 
-    if (counter >= 5) {
+    if (counter >= 72) {
       console.log("===== Test finished =====");
       console.log("Data:", JSON.stringify(data, null, 2));
       saveToExcel({ data, fileName: name });
