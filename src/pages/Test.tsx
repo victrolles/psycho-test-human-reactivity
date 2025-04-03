@@ -30,18 +30,18 @@ const Test = ({ experience }: TestProps) => {
   // Reset test
   const resetTest = (reactionTime: number, correct: boolean) => {
     setCounter(counter + 1);
+    const shapeColor = `${shape} ${color}`;
     console.log("===== Test reseted =====", counter);
-    console.log(`Color: ${color}`);
-    console.log(`Shape: ${shape}`);
+    console.log(`Shape + Color: ${shapeColor}`);
     console.log(`Congruent: ${congruent}`);
     console.log(`Correct: ${correct}`);
     console.log(`Reaction time: ${reactionTime} ms`);
     setData((prevData) => [
       ...prevData,
-      { color, shape, congruent, correct, reactionTime },
+      { shapeColor, congruent, correct, reactionTime },
     ]);
 
-    if (counter >= 72) {
+    if (counter >= 5) {
       console.log("===== Test finished =====");
       console.log("Data:", JSON.stringify(data, null, 2));
       saveToExcel({ data, fileName: `${experience}.xlsx` });

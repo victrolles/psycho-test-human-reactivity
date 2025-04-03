@@ -20,8 +20,7 @@ export interface selectShapeProps {
 }
 
 export interface Data {
-    color: Color;
-    shape: Shape;
+    shapeColor: String;
     congruent: boolean;
     correct: boolean;
     reactionTime: number;
