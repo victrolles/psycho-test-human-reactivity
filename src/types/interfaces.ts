@@ -1,30 +1,32 @@
-import { Color, HoleLocation } from "./types"
+import { Color, Shape, Experience } from "./types"
 
-export interface ShowCircleProps {
+export interface RenderTextProps {
     color: Color;
-    istext: boolean;
+    shape: Shape;
+    experience: Experience;
 };
 
 export interface ShapeProps {
     color: Color;
-    holeLocation: HoleLocation;
+    shape: Shape;
 };
 
 export interface selectShapeProps {
   resetTest: (reactionTime: number, correct: boolean) => void;
+  shape: Shape;
   color: Color;
   congruent: boolean;
+  experience: Experience;
 }
 
 export interface Data {
     color: Color;
+    shape: Shape;
     congruent: boolean;
     correct: boolean;
     reactionTime: number;
 }
 
 export interface TestProps {
-    name: string;
-    isText: boolean;
-    isPause: boolean;
+    experience: Experience;
 }

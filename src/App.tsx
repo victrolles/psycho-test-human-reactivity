@@ -8,9 +8,9 @@ function App() {
     <Router basename="/psycho-test-human-reactivity">  {/* Important for GitHub Pages */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/test1" element={<Test isText={false} isPause={false} name="Experience_1.xlsx" />} />
-        <Route path="/test2" element={<Test isText={true} isPause={false} name="Experience_2.xlsx" />} />
-        <Route path="/test3" element={<Test isText={true} isPause={true} name="Experience_3.xlsx" />} />
+        <Route path="/test1" element={<Test experience="color" />} />
+        <Route path="/test2" element={<Test experience="shape" />} />
+        <Route path="/test3" element={<Test experience="both" />} />
       </Routes>
     </Router>
   );

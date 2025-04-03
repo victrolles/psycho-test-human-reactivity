@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { Color, Phase } from "../types/types";
+import { Color, Phase, Shape } from "../types/types";
 import { Data } from "../types/interfaces";
 import { saveToExcel } from "../commons/saveToExcel";
 import { useNavigate } from "react-router-dom";
 import { TestProps } from "../types/interfaces";
 
-import ShowCircle from "../components/ShowCircle";
+import RenderText from "../components/RenderText";
 import ShowCross from "../components/ShowCross";
 import SelectShape from "../components/SelectShape";
+import { getRandomColor, getRandomShape } from "../commons/utils";
 
-const Test = ({ isText, isPause, name }: TestProps) => {
-  const [phase, SetPhase] = useState<Phase>('cross');
+const Test = ({ experience }: TestProps) => {
+  const [phase, SetPhase] = useState<Phase>('focus');
   const [color, setColor] = useState<Color>('red');
+  const [shape, setShape] = useState<Shape>('circle');
   const [congruent, setCongruent] = useState<boolean>(false);
   const [counter, setCounter] = useState(0);
   const [data, setData] = useState<Data[]>([]);
@@ -29,33 +31,40 @@ const Test = ({ isText, isPause, name }: TestProps) => {
   const resetTest = (reactionTime: number, correct: boolean) => {
     setCounter(counter + 1);
     console.log("===== Test reseted =====", counter);
-    console.log(`Reaction time: ${reactionTime} ms`);
-    console.log(`Correct: ${correct}`);
-    console.log(`Congruent: ${congruent}`);
     console.log(`Color: ${color}`);
+    console.log(`Shape: ${shape}`);
+    console.log(`Congruent: ${congruent}`);
+    console.log(`Correct: ${correct}`);
+    console.log(`Reaction time: ${reactionTime} ms`);
     setData((prevData) => [
       ...prevData,
-      { color, congruent, correct, reactionTime },
+      { color, shape, congruent, correct, reactionTime },
     ]);
 
     if (counter >= 72) {
       console.log("===== Test finished =====");
       console.log("Data:", JSON.stringify(data, null, 2));
-      saveToExcel({ data, fileName: name });
+      saveToExcel({ data, fileName: `${experience}.xlsx` });
       console.log("Data saved to Excel file.");
-      navigate('/'); // Rediriger vers la page Test2
+      navigate('/'); // Rediriger vers la page d'accueil
     }
 
-    SetPhase('cross');
+    SetPhase('focus');
     setupTest();
   }
 
   const experience1 = () => {
+    // Generate random color
+    setColor(getRandomColor);
+
+    // Generate circle
+    setShape('circle');
+
     // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'circle');
+    const timer1 = setTimer(500, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(650, 'selectShape');
+    const timer2 = setTimer(2000, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
@@ -65,11 +74,17 @@ const Test = ({ isText, isPause, name }: TestProps) => {
   };
 
   const experience2 = () => {
+    // Generate random color
+    setColor('black');
+
+    // Generate circle
+    setShape(getRandomShape);
+
     // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'circle');
+    const timer1 = setTimer(500, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(1500, 'selectShape');
+    const timer2 = setTimer(2000, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
@@ -79,41 +94,40 @@ const Test = ({ isText, isPause, name }: TestProps) => {
   };
 
   const experience3 = () => {
-    // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'circle');
+    // Generate random color
+    setColor(getRandomColor);
 
-    // Afficher la phase "indice" pendant 4.0 seconde
-    const timer3 = setTimer(1500, 'cross');
+    // Generate circle
+    setShape(getRandomShape);
+
+    // Afficher la phase "cross" pendant 0.5 seconde
+    const timer1 = setTimer(500, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(5500, 'selectShape');
-
-    
+    const timer2 = setTimer(2000, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
-      clearTimeout(timer3);
     };
   };
 
   const setupTest = () => {
-    //Définir une couleur aléatoire
-    setColor(Math.random() < 0.5 ? "red" : "blue")
-
     // Définir si congruent ou non
     setCongruent(Math.random() < 0.5 ? true : false);
 
-    if (isPause) {
+    if (experience === 'color') {
+      return experience1();
+    }
+    if (experience === 'shape') {
+      return experience2();
+    }
+    if (experience === 'both') {
       return experience3();
-    } else {
-      if (isText) {
-        return experience2();
-      }
-      else {
-        return experience1();
-      }
+    }
+    return () => {
+      // Cleanup function if needed
     }
 
   }
@@ -127,9 +141,9 @@ const Test = ({ isText, isPause, name }: TestProps) => {
 
   return (
     <div className="Test">
-        {phase === 'cross' && <ShowCross />}
-        {phase === 'circle' && <ShowCircle color={color} istext={isText} />}
-        {phase === 'selectShape' && <SelectShape resetTest={resetTest} color={color} congruent={congruent}/>}
+        {phase === 'focus' && <ShowCross />}
+        {phase === 'cue' && <RenderText color={color} shape={shape} experience={experience}/>}
+        {phase === 'test' && <SelectShape resetTest={resetTest} shape={shape} color={color} congruent={congruent} experience={experience}/>}
     </div>
   );
 };

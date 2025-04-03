@@ -1,44 +1,35 @@
 import '../styles/components.css';
-import Shape from './Shape';
-import ShowCross from './ShowCross';
+import RenderShape from './RenderShape';
 import { selectShapeProps } from "../types/interfaces";
 import { useState, useEffect } from "react";
-import { Color, HoleLocation } from "../types/types";
+import { Color, Shape } from "../types/types";
+import { getRandomColor, getRandomShape } from '../commons/utils';
 
-function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
+function SelectShape({ resetTest, shape, color, congruent, experience }: selectShapeProps) {
     
     const [startTime] = useState<number>(Date.now());
-    const [leftColor] = useState<Color>(Math.random() < 0.5 ? "red" : "blue");
-    const [leftHoleLocation] = useState<HoleLocation>(
+    const [targetColor] = useState<Color>(
         congruent ?
-        (color === leftColor ? (Math.random() < 0.5 ? "left" : "right") : "vertical") :
-        (color === leftColor ? "vertical" : (Math.random() < 0.5 ? "left" : "right"))
+        color :
+        (experience === 'shape' ? "black" : getRandomColor(color))
     );
-    const [rightHoleLocation] = useState<HoleLocation>(
-        leftHoleLocation === "vertical" ? (Math.random() < 0.5 ? "left" : "right") : "vertical"
+    const [targetShape] = useState<Shape>(
+        congruent ?
+        shape :
+        (experience === 'color' ? "circle" : getRandomShape(shape))
     );
     
-    const handleClick = (clickLeft: boolean) => {
+    const handleClick = (similaire: boolean) => {
         // Temps de réaction
         const endTime = Date.now(); // Enregistrer l'heure de fin
         const reactionTime = endTime - startTime; // Calculer le temps de réaction
 
         // Vérifier si la réponse est correcte
-        let correct = false; // Default to false
-        if (leftHoleLocation !== "vertical" ) {
-            if (leftHoleLocation === "left" && clickLeft) {
-                correct = true;
-            } else if (leftHoleLocation === "right" && !clickLeft) {
-                correct = true;
-            }
-
-        }
-        if (rightHoleLocation !== "vertical" ) {
-            if (rightHoleLocation === "left" && clickLeft) {
-                correct = true;
-            } else if (rightHoleLocation === "right" && !clickLeft) {
-                correct = true;
-            }
+        let correct; // Default to false
+        if (similaire) {
+            correct = targetColor === color && targetShape === shape;
+        } else {
+            correct = targetColor !== color || targetShape !== shape;
         }
         
 
@@ -48,9 +39,9 @@ function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
     // Ajouter un écouteur pour les pressions de touches
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "ArrowLeft") {
+            if (event.key === "ArrowRight") {
                 handleClick(true); // Flèche gauche
-            } else if (event.key === "ArrowRight") {
+            } else if (event.key === "ArrowLeft") {
                 handleClick(false); // Flèche droite
             }
         };
@@ -62,16 +53,13 @@ function SelectShape({ resetTest, color, congruent }: selectShapeProps) {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [startTime, leftHoleLocation, leftColor]); // Dépendances nécessaires
+    }, [startTime]); // Dépendances nécessaires
 
 
     return (
 
         <div className="select-shape">
-            <div onClick={() => handleClick(true)}><Shape color={leftColor} holeLocation={leftHoleLocation}/></div>
-            <ShowCross />
-            <div onClick={() => handleClick(false)}><Shape color={leftColor === "red" ? "blue" : "red"} holeLocation={rightHoleLocation} /></div>
-            
+            <RenderShape color={targetColor} shape={targetShape}/>
         </div>
     );
   }

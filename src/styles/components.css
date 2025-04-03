@@ -6,22 +6,12 @@
     align-items: center;
 }
 
-/* Show Circle */
+/* Render Texte */
 
-.show-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    }
-
-    .circle {
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-    }
-
-    .circle-text {
-        font-size: 120px;
+.render-text p {
+    font-size: 7em;
+    font-weight: 500;
+    text-align: center;
 }
 
 /* Show Cross */
@@ -69,24 +59,22 @@
     margin: 0 50px;
     }
 
-    .square-outside {
+    .square {
         width: 300px;
         height: 300px;
-        background-color: rgb(255, 255, 255); /* Couleur de l'extérieur */
     }
-    .square-inside {
-        width: 250px;
-        height: 250px;
-        background-color: rgb(127,127,127); /* Couleur de l'intérieur */
-        position: relative;
-        top: calc(50% - 125px); /* Centrer verticalement */
-        left: calc(50% - 125px); /* Centrer horizontalement */
+
+    .circle {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
     }
-    .square {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        background-color: rgb(127,127,127);
+
+    .triangle {
+        width: 0;
+        height: 0;
+        border-left: 150px solid transparent;
+        border-right: 150px solid transparent;
 }
 
 /* Select Shape */
