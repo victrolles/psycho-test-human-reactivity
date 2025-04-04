@@ -127,7 +127,7 @@ const Test = ({ experience }: TestProps) => {
     const timer2 = setTimer(4000, 'pause');
   
     // Afficher la phase "circle" pendant 2 seconde
-    const timer3 = setTimer(6000, 'test');
+    const timer3 = setTimer(7000, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
