@@ -19,7 +19,7 @@ function RenderText({ color, shape, experience }: RenderTextProps) {
       <div className="render-text">
         {experience === 'color' && <p>{colorTranslation[color]}</p>}
         {experience === 'shape' && <p>{shapeTranslation[shape]}</p>}
-        {experience === 'both' && <p>{`${shapeTranslation[shape]} ${colorTranslation[color]}`}</p>}
+        {(experience === 'both' || experience === 'all') && <p>{`${shapeTranslation[shape]} ${colorTranslation[color]}`}</p>}
       </div>
     );
   }

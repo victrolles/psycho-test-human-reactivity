@@ -11,6 +11,7 @@ function App() {
         <Route path="/test1" element={<Test experience="color" />} />
         <Route path="/test2" element={<Test experience="shape" />} />
         <Route path="/test3" element={<Test experience="both" />} />
+        <Route path="/test4" element={<Test experience="all" />} />
       </Routes>
     </Router>
   );

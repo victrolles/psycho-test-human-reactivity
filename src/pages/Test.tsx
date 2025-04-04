@@ -113,6 +113,30 @@ const Test = ({ experience }: TestProps) => {
     };
   };
 
+  const experience4 = () => {
+    // Generate random color
+    setColor(getRandomColor);
+
+    // Generate circle
+    setShape(getRandomShape);
+
+    // Afficher la phase "cross" pendant 2 seconde
+    const timer1 = setTimer(2000, 'cue');
+
+    // Afficher pauser pendant 2 seconde
+    const timer2 = setTimer(4000, 'pause');
+  
+    // Afficher la phase "circle" pendant 2 seconde
+    const timer3 = setTimer(6000, 'test');
+  
+    // Nettoyer les deux timeouts lors du démontage du composant
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  };
+
   const setupTest = () => {
     // Définir si congruent ou non
     setCongruent(Math.random() < 0.5 ? true : false);
@@ -125,6 +149,9 @@ const Test = ({ experience }: TestProps) => {
     }
     if (experience === 'both') {
       return experience3();
+    }
+    if (experience === 'all') {
+      return experience4();
     }
     return () => {
       // Cleanup function if needed
