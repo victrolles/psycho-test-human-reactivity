@@ -61,10 +61,10 @@ const Test = ({ experience }: TestProps) => {
     setShape('circle');
 
     // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'cue');
+    const timer1 = setTimer(2000, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(2000, 'test');
+    const timer2 = setTimer(3500, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
@@ -81,10 +81,10 @@ const Test = ({ experience }: TestProps) => {
     setShape(getRandomShape);
 
     // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'cue');
+    const timer1 = setTimer(2000, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(2000, 'test');
+    const timer2 = setTimer(3500, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {
@@ -101,10 +101,10 @@ const Test = ({ experience }: TestProps) => {
     setShape(getRandomShape);
 
     // Afficher la phase "cross" pendant 0.5 seconde
-    const timer1 = setTimer(500, 'cue');
+    const timer1 = setTimer(2000, 'cue');
   
     // Afficher la phase "circle" pendant 1.5 seconde
-    const timer2 = setTimer(2500, 'test');
+    const timer2 = setTimer(4000, 'test');
   
     // Nettoyer les deux timeouts lors du démontage du composant
     return () => {

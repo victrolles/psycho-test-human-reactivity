@@ -33,7 +33,7 @@
     .cross::after {
         content: "";
         position: absolute;
-        background-color: rgb(255, 255, 255); /* Couleur de la croix */
+        background-color: rgb(0, 0, 0); /* Couleur de la croix */
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
