@@ -17,6 +17,7 @@ const Test = ({ experience }: TestProps) => {
   const [congruent, setCongruent] = useState<boolean>(false);
   const [counter, setCounter] = useState(0);
   const [data, setData] = useState<Data[]>([]);
+  const [maxCounter] = useState(experience === 'all' ? 32 : 64);
   const navigate = useNavigate();
 
   // Fonction pour set un timer
@@ -41,7 +42,7 @@ const Test = ({ experience }: TestProps) => {
       { shapeColor, congruent, correct, reactionTime },
     ]);
 
-    if (counter >= 60) {
+    if (counter >= maxCounter) {
       console.log("===== Test finished =====");
       console.log("Data:", JSON.stringify(data, null, 2));
       saveToExcel({ data, fileName: `${experience}.xlsx` });
