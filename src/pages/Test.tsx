@@ -41,7 +41,7 @@ const Test = ({ experience }: TestProps) => {
       { shapeColor, congruent, correct, reactionTime },
     ]);
 
-    if (counter >= 72) {
+    if (counter >= 60) {
       console.log("===== Test finished =====");
       console.log("Data:", JSON.stringify(data, null, 2));
       saveToExcel({ data, fileName: `${experience}.xlsx` });
