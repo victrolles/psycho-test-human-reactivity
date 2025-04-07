@@ -17,7 +17,7 @@ const Test = ({ experience }: TestProps) => {
   const [congruent, setCongruent] = useState<boolean>(false);
   const [counter, setCounter] = useState(0);
   const [data, setData] = useState<Data[]>([]);
-  const [maxCounter] = useState(50);
+  const [maxCounter] = useState(54);
   const navigate = useNavigate();
 
   // Fonction pour set un timer
