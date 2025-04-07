@@ -15,9 +15,6 @@ function Home() {
         <Link to="/test3">
             <button>Test 3</button>
         </Link>
-        <Link to="/test4">
-            <button>Test 4</button>
-        </Link>
       </div> 
     </div>
   );
