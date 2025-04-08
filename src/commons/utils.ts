@@ -51,4 +51,31 @@ export const getRandomShapeColor = (ShapeProps: ShapeProps): ShapeProps => {
         color: newColor,
         shape: newShape,
     };
-}    
+}
+
+// Fonction pour mélanger un tableau
+const shuffleArray = (array: boolean[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
+const countTrues = (array: boolean[]) => {
+    return array.reduce((count, value) => count + (value ? 1 : 0), 0);
+}
+
+const countFalses = (array: boolean[]) => {
+    return array.reduce((count, value) => count + (value ? 0 : 1), 0);
+}
+
+// Générer une liste équilibrée de tests congruents et non congruents
+export const generateCongruentList = (totalTrials: number): boolean[] => {
+    const half = Math.floor(totalTrials / 2);
+    const congruentList = Array(half).fill(true).concat(Array(totalTrials - half).fill(false));
+    const shuffledArray = shuffleArray(congruentList);
+    console.log("Shuffled array True :", countTrues(shuffledArray));
+    console.log("Shuffled array False :", countFalses(shuffledArray));
+    return shuffledArray;
+};

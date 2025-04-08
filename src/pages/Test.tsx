@@ -8,17 +8,26 @@ import { TestProps } from "../types/interfaces";
 import RenderText from "../components/RenderText";
 import ShowCross from "../components/ShowCross";
 import SelectShape from "../components/SelectShape";
-import { getRandomColor, getRandomShape } from "../commons/utils";
+import { getRandomColor, getRandomShape, generateCongruentList } from "../commons/utils";
 
 const Test = ({ experience }: TestProps) => {
   const [phase, SetPhase] = useState<Phase>('focus');
   const [color, setColor] = useState<Color>('red');
   const [shape, setShape] = useState<Shape>('circle');
   const [congruent, setCongruent] = useState<boolean>(false);
+  const [congruentList, setCongruentList] = useState<boolean[]>([]);
+  const [currentTrial, setCurrentTrial] = useState<number>(-1);
   const [counter, setCounter] = useState(0);
   const [data, setData] = useState<Data[]>([]);
   const [maxCounter] = useState(54);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Générer une liste équilibrée de tests congruents et non congruents
+    const list = generateCongruentList(maxCounter);
+    setCongruentList(list);
+    console.log("Congruent list:", list);
+  }, [maxCounter]);
 
   // Fonction pour set un timer
   const setTimer = (duration: number, newPhase: Phase) => {
@@ -49,8 +58,6 @@ const Test = ({ experience }: TestProps) => {
       console.log("Data saved to Excel file.");
       navigate('/'); // Rediriger vers la page d'accueil
     }
-
-    SetPhase('focus');
     setupTest();
   }
 
@@ -127,8 +134,13 @@ const Test = ({ experience }: TestProps) => {
   };
 
   const setupTest = () => {
-    // Définir si congruent ou non
-    setCongruent(Math.random() < 0.5 ? true : false);
+    // Définir si congruent ou non à partir de la liste
+    if (currentTrial < congruentList.length) {
+      setCongruent(congruentList[currentTrial]);
+    }
+
+    SetPhase('focus');
+    setCurrentTrial(currentTrial + 1); // Passer au prochain essai
 
     if (experience === 'color') {
       return experience1();
@@ -150,7 +162,7 @@ const Test = ({ experience }: TestProps) => {
     return () => {
       cleanup();
     };
-  }, []);
+  }, [congruentList]);
 
   return (
     <div className="Test">
