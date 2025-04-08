@@ -1,4 +1,5 @@
 import { Color, Shape } from '../types/types';
+import { ShapeProps } from '../types/interfaces';
 
 export const getRandomColor = (currentColor: Color | null): Color => {
     // Define all possible colors
@@ -35,3 +36,19 @@ export const getRandomShape = (currentShape: Shape | null): Shape => {
     const randomIndex = Math.floor(Math.random() * availableShapes.length);
     return availableShapes[randomIndex];
 };
+
+export const getRandomShapeColor = (ShapeProps: ShapeProps): ShapeProps => {
+    const { color, shape } = ShapeProps;
+    let newColor: Color = getRandomColor(null);
+    let newShape: Shape = getRandomShape(null);
+
+    while (newColor === color && newShape === shape) {
+        newColor = getRandomColor(null);
+        newShape = getRandomShape(null);
+    }
+
+    return {
+        color: newColor,
+        shape: newShape,
+    };
+}    

@@ -3,23 +3,17 @@ import RenderShape from './RenderShape';
 import { selectShapeProps } from "../types/interfaces";
 import { useState, useEffect } from "react";
 import { Color, Shape } from "../types/types";
-import { getRandomColor, getRandomShape } from '../commons/utils';
+import { getRandomColor, getRandomShape, getRandomShapeColor } from '../commons/utils';
 
 function SelectShape({ resetTest, shape, color, congruent, experience }: selectShapeProps) {
     
     const [startTime] = useState<number>(Date.now());
-    const [targetColor] = useState<Color>(
-        congruent ?
-        color :
-        (experience === 'shape' ? "black" : getRandomColor(color))
-    );
-    const [targetShape] = useState<Shape>(
-        congruent ?
-        shape :
-        (experience === 'color' ? "circle" : getRandomShape(shape))
-    );
+    const [targetColor, setTargetColor] = useState<Color>();
+    const [targetShape, setTargetShape] = useState<Shape>();
+    const [done, setDone] = useState<boolean>(false);
     
     const handleClick = (similaire: boolean) => {
+
         // Temps de réaction
         const endTime = Date.now(); // Enregistrer l'heure de fin
         const reactionTime = endTime - startTime; // Calculer le temps de réaction
@@ -38,6 +32,29 @@ function SelectShape({ resetTest, shape, color, congruent, experience }: selectS
 
     // Ajouter un écouteur pour les pressions de touches
     useEffect(() => {
+        if (!done) {
+            setDone(true);
+
+            if (congruent) {
+                setTargetColor(color);
+                setTargetShape(shape);
+            } else {
+                if (experience === 'both') {
+                    const {color: newColor, shape: newShape } = getRandomShapeColor({ color, shape });
+                    setTargetColor(newColor);
+                    setTargetShape(newShape);
+                } else if (experience === 'color') {
+                    setTargetColor(getRandomColor(color));
+                    setTargetShape("circle");
+                } else if (experience === 'shape') {
+                    setTargetColor("black");
+                    setTargetShape(getRandomShape(shape));
+                }
+            }
+            
+        }
+
+
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === "ArrowRight") {
                 handleClick(true); // Flèche gauche
@@ -53,13 +70,13 @@ function SelectShape({ resetTest, shape, color, congruent, experience }: selectS
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [startTime]); // Dépendances nécessaires
+    }, [startTime, targetColor, targetShape]); // Dépendances nécessaires
 
 
     return (
 
         <div className="select-shape">
-            <RenderShape color={targetColor} shape={targetShape}/>
+            {targetColor && targetShape && <RenderShape color={targetColor} shape={targetShape} /> }
         </div>
     );
   }
